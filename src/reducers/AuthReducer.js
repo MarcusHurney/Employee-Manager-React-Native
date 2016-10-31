@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+  console.log(action);
   // a new state object must be returned for each action
   // the new state and the old state refer to the same object in memory
   // so you can't mutate state directly and return it, redux will think
@@ -18,6 +19,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, email: action.payload };
     case types.PASSWORD_CHANGED:
       return { ...state, password: action.payload };
+
     case types.LOGIN_USER_START:
       return { ...state, loading: true, error: '' };
     case types.LOGIN_USER_SUCCESS:
@@ -33,6 +35,23 @@ export default (state = INITIAL_STATE, action) => {
         password: '',
         loading: false
       };
+
+    case types.SIGNUP_USER_START:
+      return { ...state, loading: true, error: '' };
+    case types.SIGNUP_USER_SUCCESS:
+      return {
+        ...state,
+        ...INITIAL_STATE,
+        user: action.payload,
+      };
+    case types.SIGNUP_USER_FAIL:
+      return {
+        ...state,
+        error: 'Could not create new account',
+        password: '',
+        loading: false
+      };
+      
     case types.LOGOUT_USER_SUCCESS:
       return { ...INITIAL_STATE };
     default:

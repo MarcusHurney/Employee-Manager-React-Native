@@ -8,16 +8,7 @@ import Router from './Router';
 
 class App extends Component {
   componentWillMount() {
-    // Initialize Firebase
-    const config = {
-      apiKey: 'AIzaSyASdBl32ggjKGePkRmW8wn-xHwLGu65zFY',
-      authDomain: 'manager-b981a.firebaseapp.com',
-      databaseURL: 'https://manager-b981a.firebaseio.com',
-      storageBucket: 'manager-b981a.appspot.com',
-      messagingSenderId: '84303593220'
-    };
-
-    firebase.initializeApp(config);
+    
   }
   render() {
     // root component's Provider tag takes an instance of Redux store

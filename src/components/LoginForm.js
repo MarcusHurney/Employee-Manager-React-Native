@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser, logoutUser } from '../actions';
+import { emailChanged, passwordChanged, loginUser, signupUser, logoutUser } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 
 
@@ -19,11 +19,17 @@ class LoginForm extends Component {
     // call login action creator
     this.props.loginUser({ email, password });
   }
+  onSignupPress() {
+    // pull value from text boxes via redux state
+    const { email, password } = this.props;
+    // call login action creator
+    this.props.signupUser({ email, password });
+  }
   onLogoutPress() {
     this.props.logoutUser();
   }
 
-  renderButton() {
+  renderLoginButton() {
     if (this.props.loading) {
       return <Spinner size="large" />;
     } else if (this.props.user) {
@@ -36,6 +42,19 @@ class LoginForm extends Component {
     return (
       <Button onPress={this.onLoginPress.bind(this)}>
         Login
+      </Button>
+    );
+  }
+
+  renderSignupButton() {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    } else if (this.props.user) {
+      return;
+    }
+    return (
+      <Button onPress={this.onSignupPress.bind(this)}>
+        Sign Up
       </Button>
     );
   }
@@ -67,7 +86,8 @@ class LoginForm extends Component {
         </Text>
 
         <CardSection>
-          {this.renderButton()}
+          {this.renderLoginButton()}
+          {this.renderSignupButton()}
         </CardSection>
       </Card>
     );
@@ -89,5 +109,9 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, logoutUser
+  emailChanged,
+  passwordChanged,
+  loginUser,
+  signupUser,
+  logoutUser
 })(LoginForm);
