@@ -2,7 +2,7 @@
 const passport = require('passport');
 
 const AuthenticationController = require('../controllers/authentication_controller');
-// const TodosController = require('../controllers/todos_controller');
+const EmployeeController = require('../controllers/employee_controller');
 const passportService = require('./passport');
 
 var requireAuth = passport.authenticate('jwt', {session: false});
@@ -23,13 +23,18 @@ router.route('/signin')
   .post([requireLogin, AuthenticationController.signin]);
 
 
-// Todo Routes
+// Employee Routes
 // -----------------------------------------------------------------------------
-// router.route('/users/:user_id/todos')
-//   .post(requireAuth, TodosController.create)
-//   .get(requireAuth, TodosController.index);
-//
-// router.route('/users/:user_id/todos/:todo_id')
-//   .delete(requireAuth, TodosController.destroy);
+router.route('/employee/create')
+  .post(EmployeeController.createEmployee);
+
+router.route('/employee/fetchAll')
+  .get(EmployeeController.fetchAll);
+
+router.route('/employee/edit')
+  .patch(EmployeeController.editEmployee);
+
+router.route('/employee/delete')
+  .delete(EmployeeController.deleteEmployee);
 
 module.exports = router;

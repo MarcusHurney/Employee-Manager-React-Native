@@ -35,4 +35,4 @@ exports.signup = function(req, res, next) {
       res.json({user_id: user._id, token: tokenForUser(user)});
     });
   });
-}
+};

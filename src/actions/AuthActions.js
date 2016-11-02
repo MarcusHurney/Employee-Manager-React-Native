@@ -1,6 +1,6 @@
-import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
+import Keychain from 'react-native-keychain';
 import * as types from './types';
 
 // signup & login FORM handlers ----------------->
@@ -20,6 +20,26 @@ export const passwordChanged = (text) => {
  // end form handlers ---------------------------------------------->
 
  // login action creators ----------------->
+ // export const loginUser = ({ email, password }) => {
+ //   const props = { email, password };
+ //   return (dispatch) => {
+ //     // notifies REDUX store that an ajax request is in progress
+ //     dispatch({ type: types.LOGIN_USER_START });
+ //
+ //     axios.post('http://localhost:3000/signin', props)
+ //       .then(response => {
+ //         console.log(response.data.user_id);
+ //         const { user_id, token } = response.data;
+ //         console.log(user_id);
+ //         loginUserSuccess(dispatch, user_id);
+ //       })
+ //       .catch((error) => {
+ //         console.log(error);
+ //         loginUserFail(dispatch);
+ //       });
+ //   };
+ // };
+
  export const loginUser = ({ email, password }) => {
    const props = { email, password };
    return (dispatch) => {
@@ -28,9 +48,38 @@ export const passwordChanged = (text) => {
 
      axios.post('http://localhost:3000/signin', props)
        .then(user => loginUserSuccess(dispatch, user))
-       .catch(() => loginUserFail(dispatch));
+       .catch((err) => {
+         console.log(err.stack);
+         loginUserFail(dispatch);
+       });
    };
  };
+// KEYCHAIN ATTEMPT
+ // export const loginUser = ({ email, password }) => {
+ //   const props = { email, password };
+ //   return (dispatch) => {
+ //     // notifies REDUX store that an ajax request is in progress
+ //     dispatch({ type: types.LOGIN_USER_START });
+ //
+ //     axios.post('http://localhost:3000/signin', props)
+ //       .then(response => {
+ //         const { user_id, token } = response.data;
+ //         console.log(user_id);
+ //         Keychain.setGenericPassword(user_id, token)
+ //          .then(() => {
+ //            loginUserSuccess(dispatch, user_id);
+ //          })
+ //          .catch((err) => {
+ //            console.log(err);
+ //            loginUserFail(dispatch);
+ //          });
+ //       })
+ //       .catch((error) => {
+ //         console.log(error);
+ //         loginUserFail(dispatch);
+ //       });
+ //   };
+ // };
 
 const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: types.LOGIN_USER_SUCCESS, payload: user });
@@ -45,6 +94,49 @@ const loginUserFail = (dispatch) => {
 // end login ---------------------------------------------->
 
  // signup action creators ----------------->
+// export const signupUser = ({ email, password }) => {
+//   const props = { email, password };
+//   return (dispatch) => {
+//     // notifies REDUX store that an ajax request is in progress
+//     dispatch({ type: types.SIGNUP_USER_START });
+//
+//     axios.post('http://localhost:3000/signup', props)
+//     .then(response => {
+//       const { user_id, token } = response.data;
+//       signupUserSuccess(dispatch, user_id);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       loginUserFail(dispatch);
+//     });
+//   };
+// };
+// KEYCHAIN ATTEMPT
+// export const signupUser = ({ email, password }) => {
+//   const props = { email, password };
+//   return (dispatch) => {
+//     // notifies REDUX store that an ajax request is in progress
+//     dispatch({ type: types.SIGNUP_USER_START });
+//
+//     axios.post('http://localhost:3000/signup', props)
+//     .then(response => {
+//       const { user_id, token } = response.data;
+//       Keychain.setGenericPassword(user_id, token)
+//        .then(() => {
+//          signupUserSuccess(dispatch, user_id);
+//        })
+//        .catch((err) => {
+//          console.log(err);
+//          signupUserFailed(dispatch);
+//        });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       loginUserFail(dispatch);
+//     });
+//   };
+// };
+
 export const signupUser = ({ email, password }) => {
   const props = { email, password };
   return (dispatch) => {
@@ -63,7 +155,7 @@ const signupUserSuccess = (dispatch, user) => {
   dispatch({ type: types.SIGNUP_USER_SUCCESS, payload: user });
   // this method Actions.main() is derived from the key prop on the Scene tag
   // in Router.js
-  Actions.main();
+  // Actions.main();
 };
 
 const signupUserFailed = (dispatch) => {
@@ -73,14 +165,16 @@ const signupUserFailed = (dispatch) => {
 // end signup ---------------------------------------------->
 
 // logout action creators ----------------->
+export const logoutUser = () => {
+  return (dispatch) => {
+    // clear token from storage
+    logoutUserSuccess(dispatch);
+  };
+};
+
 const logoutUserSuccess = (dispatch) => {
   dispatch({ type: types.LOGOUT_USER_SUCCESS });
 };
 
-export const logoutUser = () => {
-  return (dispatch) => {
-    firebase.auth().signOut()
-      .then(() => logoutUserSuccess(dispatch));
-  };
-};
+
 // end logout ---------------------------------------------->
