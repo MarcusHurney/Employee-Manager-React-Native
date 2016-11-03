@@ -46,14 +46,16 @@ exports.editEmployee = function (req, res, next) {
 };
 
 exports.deleteEmployee = function (req, res, next) {
-  const { id } = req.body;
-  
-  Employee.findOneAndRemove({ _id: new mongoose.Types.ObjectID(id) }, (err, employee) => {
+  const { id } = req.params;
+
+  Employee.findByIdAndRemove({ _id: id }, (err, employee) => {
       if (err) { return next(err); }
 
       // if no employee with the given ID is found throw 404
-      if (!employee) { res.status(404).json('No employee with that ID'); }
-
-      res.status(200).json(employee);
+      if (!employee) {
+        res.status(404).json('No employee with that ID');
+      } else {
+        res.status(200).json(employee);
+      }
   });
 };

@@ -68,12 +68,9 @@ export const employeeEdit = ({ name, phone, shift, id }) => {
 };
 
 export const employeeDelete = ({ id }) => {
-  const props = { id };
-
   return () => {
-    axios.delete(`${api.API_ROUTE}/employee/delete`, props)
+    axios.delete(`${api.API_ROUTE}/employee/delete/${id}`)
       .then((response) => {
-        console.log(response);
         // push user back to EmployeeList and reset view stack
         Actions.employeeList({ type: 'reset' });
       })

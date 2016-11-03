@@ -34,7 +34,7 @@ router.route('/employee/fetchAll')
 router.route('/employee/edit')
   .patch(EmployeeController.editEmployee);
 
-router.route('/employee/delete')
+router.route('/employee/delete/:id')
   .delete(EmployeeController.deleteEmployee);
 
 module.exports = router;
