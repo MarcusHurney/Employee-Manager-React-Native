@@ -8,13 +8,12 @@ const Confirm = ({ visible, children, onAccept, onDecline }) => {
   const { containerStyle, textStyle, cardSectionStyle } = styles;
   return (
     <Modal
-      style={containerStyle}
       visible={visible}
       transparent
       animationType="slide"
       onRequestClose={() => {}}
     >
-      <View>
+      <View style={containerStyle}>
         <CardSection style={cardSectionStyle}>
           <Text style={textStyle}>
             {children}

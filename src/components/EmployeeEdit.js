@@ -22,8 +22,8 @@ class EmployeeEdit extends Component {
   onButtonPress() {
     // pull name, phone, and shift from the employeeForm reducer
     // these will be the new props to save to the employee model
-    const { name, phone, shift } = this.props;
-    this.props.employeeEdit({ id: this.props.employee._id, name, phone, shift });
+    const { name, phone, shift, userId } = this.props;
+    this.props.employeeEdit({ userId, id: this.props.employee._id, name, phone, shift });
   }
 
   onTextPress() {
@@ -75,9 +75,12 @@ class EmployeeEdit extends Component {
 }
 
 const mapStateToProps = state => {
+  // id of logged in user
+  const userId = state.auth.user;
+
   const { name, phone, shift } = state.employeeForm;
 
-  return { name, phone, shift };
+  return { name, phone, shift, userId };
 };
 
 export default connect(mapStateToProps, {

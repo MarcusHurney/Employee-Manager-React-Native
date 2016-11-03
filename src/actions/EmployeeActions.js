@@ -12,8 +12,8 @@ export const employeeUpdate = ({ prop, value }) => {
   };
 };
 
-export const employeeCreate = ({ name, phone, shift }) => {
-  const props = { name, phone, shift };
+export const employeeCreate = ({ userId, name, phone, shift }) => {
+  const props = { userId, name, phone, shift };
   return (dispatch) => {
     axios.post(`${api.API_ROUTE}/employee/create`, props)
       .then(() => {
@@ -33,10 +33,10 @@ export const employeeCreate = ({ name, phone, shift }) => {
   };
 };
 
-export const employeesFetch = () => {
+export const employeesFetch = (userId) => {
   return (dispatch) => {
     // fetches all employees, need to add user ID as validation
-    axios.get(`${api.API_ROUTE}/employee/fetchAll`)
+    axios.get(`${api.API_ROUTE}/employee/fetchAll/${userId}`)
       .then(employees => {
         dispatch({ type: types.EMPLOYEES_FETCH_SUCCESS, payload: employees });
       })
@@ -50,8 +50,8 @@ export const employeesFetch = () => {
   };
 };
 
-export const employeeEdit = ({ name, phone, shift, id }) => {
-  const props = { name, phone, shift, id };
+export const employeeEdit = ({ userId, name, phone, shift, id }) => {
+  const props = { userId, name, phone, shift, id };
   return (dispatch) => {
     axios.patch(`${api.API_ROUTE}/employee/edit`, props)
       .then(() => {

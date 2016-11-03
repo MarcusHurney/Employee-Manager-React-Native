@@ -7,7 +7,8 @@ exports.createEmployee = function (req, res, next) {
   const { phone } = req.body;
   const { shift } = req.body;
 
-  const employee = new Employee({ name, phone, shift });
+  const employee = new Employee({ creator: req.body.userId, name, phone, shift });
+
   employee.save(err => {
     if (err) { return next(err); }
     res.status(200).json({ employee });
@@ -15,7 +16,9 @@ exports.createEmployee = function (req, res, next) {
 };
 
 exports.fetchAll = function (req, res, next) {
-  Employee.find({}, (err, employees) => {
+  const { userId } = req.params;
+
+  Employee.find({ creator: userId }, (err, employees) => {
       if (err) { return next(err); }
       res.status(200).json(employees);
   });
@@ -26,8 +29,9 @@ exports.editEmployee = function (req, res, next) {
   const { name } = req.body;
   const { phone } = req.body;
   const { shift } = req.body;
+  const { userId } = req.body;
 
-  Employee.findById(id, (err, employee) => {
+  Employee.findOne({ _id: id, creator: userId }, (err, employee) => {
       if (err) { return next(err); }
 
       const employeeToUpdate = employee;
@@ -45,6 +49,8 @@ exports.editEmployee = function (req, res, next) {
   });
 };
 
+// add check to see if employee belongs to logged in user
+// pull logged in user's Id from authenticate middleware
 exports.deleteEmployee = function (req, res, next) {
   const { id } = req.params;
 

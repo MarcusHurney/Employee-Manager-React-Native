@@ -28,7 +28,7 @@ router.route('/signin')
 router.route('/employee/create')
   .post(EmployeeController.createEmployee);
 
-router.route('/employee/fetchAll')
+router.route('/employee/fetchAll/:userId')
   .get(EmployeeController.fetchAll);
 
 router.route('/employee/edit')

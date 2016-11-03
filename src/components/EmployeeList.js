@@ -7,7 +7,8 @@ import EmployeeListItem from './EmployeeListItem';
 
 class EmployeeList extends Component {
   componentWillMount() {
-    this.props.employeesFetch();
+    const { userId } = this.props;
+    this.props.employeesFetch(userId);
 
     this.createDataSource(this.props);
   }
@@ -44,7 +45,7 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = state => {
-  return { employees: state.employees };
+  return { employees: state.employees, userId: state.auth.user };
 };
 
 export default connect(mapStateToProps, { employeesFetch })(EmployeeList);
