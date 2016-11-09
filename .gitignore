@@ -32,7 +32,6 @@ local.properties
 # node.js
 #
 node_modules/
-backend/config/config.json
 npm-debug.log
 
 # BUCK

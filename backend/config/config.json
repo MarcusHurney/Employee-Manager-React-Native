@@ -1,0 +1,12 @@
+{
+  "test": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://mjuicey:thatpiff@ds139277.mlab.com:39277/react-native-authentication",
+    "JWT_SECRET": "nameduorenxihuanchiwodexiaodidi90"
+  },
+  "development": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://mjuicey:thatpiff@ds139277.mlab.com:39277/react-native-authentication",
+    "JWT_SECRET": "nameduorenxihuanchiwodexiaodidi90"
+  }
+}

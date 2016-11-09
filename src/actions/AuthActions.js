@@ -1,6 +1,6 @@
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
-import Keychain from 'react-native-keychain';
+// import Keychain from 'react-native-keychain';
 import * as types from './types';
 
 // signup & login FORM handlers ----------------->
@@ -20,25 +20,6 @@ export const passwordChanged = (text) => {
  // end form handlers ---------------------------------------------->
 
  // login action creators ----------------->
- // export const loginUser = ({ email, password }) => {
- //   const props = { email, password };
- //   return (dispatch) => {
- //     // notifies REDUX store that an ajax request is in progress
- //     dispatch({ type: types.LOGIN_USER_START });
- //
- //     axios.post('http://localhost:3000/signin', props)
- //       .then(response => {
- //         console.log(response.data.user_id);
- //         const { user_id, token } = response.data;
- //         console.log(user_id);
- //         loginUserSuccess(dispatch, user_id);
- //       })
- //       .catch((error) => {
- //         console.log(error);
- //         loginUserFail(dispatch);
- //       });
- //   };
- // };
 
  export const loginUser = ({ email, password }) => {
    const props = { email, password };
@@ -54,7 +35,7 @@ export const passwordChanged = (text) => {
        });
    };
  };
-// KEYCHAIN ATTEMPT
+// The following script contains REACT-NATIVE-KEYCHAIN
  // export const loginUser = ({ email, password }) => {
  //   const props = { email, password };
  //   return (dispatch) => {
@@ -94,24 +75,23 @@ const loginUserFail = (dispatch) => {
 // end login ---------------------------------------------->
 
  // signup action creators ----------------->
-// export const signupUser = ({ email, password }) => {
-//   const props = { email, password };
-//   return (dispatch) => {
-//     // notifies REDUX store that an ajax request is in progress
-//     dispatch({ type: types.SIGNUP_USER_START });
-//
-//     axios.post('http://localhost:3000/signup', props)
-//     .then(response => {
-//       const { user_id, token } = response.data;
-//       signupUserSuccess(dispatch, user_id);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       loginUserFail(dispatch);
-//     });
-//   };
-// };
-// KEYCHAIN ATTEMPT
+
+export const signupUser = ({ email, password }) => {
+  const props = { email, password };
+  return (dispatch) => {
+    // notifies REDUX store that an ajax request is in progress
+    dispatch({ type: types.SIGNUP_USER_START });
+
+    axios.post('http://localhost:3000/signup', props)
+      .then(user => signupUserSuccess(dispatch, user))
+      .catch((error) => {
+        console.log(error);
+        signupUserFailed(dispatch);
+      });
+  };
+};
+
+// The following signup script contains REACT-NATIVE-KEYCHAIN
 // export const signupUser = ({ email, password }) => {
 //   const props = { email, password };
 //   return (dispatch) => {
@@ -137,25 +117,11 @@ const loginUserFail = (dispatch) => {
 //   };
 // };
 
-export const signupUser = ({ email, password }) => {
-  const props = { email, password };
-  return (dispatch) => {
-    // notifies REDUX store that an ajax request is in progress
-    dispatch({ type: types.SIGNUP_USER_START });
-
-    axios.post('http://localhost:3000/signup', props)
-      .then(user => signupUserSuccess(dispatch, user))
-      .catch(() => {
-        signupUserFailed(dispatch);
-      });
-  };
-};
-
 const signupUserSuccess = (dispatch, user) => {
   dispatch({ type: types.SIGNUP_USER_SUCCESS, payload: user });
   // this method Actions.main() is derived from the key prop on the Scene tag
   // in Router.js
-  // Actions.main();
+  Actions.main();
 };
 
 const signupUserFailed = (dispatch) => {
